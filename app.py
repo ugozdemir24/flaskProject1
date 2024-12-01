@@ -1,6 +1,7 @@
-from flask import Flask, request, jsonify
+import os
 import pymysql
 from pymysql.err import OperationalError
+from flask import Flask, request, jsonify
 from flask_cors import CORS
 
 app = Flask(__name__)
@@ -15,10 +16,10 @@ def home():
 def get_db_connection():
     try:
         connection = pymysql.connect(
-            host='localhost',
-            user='root',
-            password='bil18a',
-            database='msg18',
+            host=os.getenv('DB_HOST', 'localhost'),  # Çevresel değişkeni al
+            user=os.getenv('DB_USER', 'root'),      # Çevresel değişkeni al
+            password=os.getenv('DB_PASSWORD', 'bil18a'),  # Çevresel değişkeni al
+            database=os.getenv('DB_NAME', 'msg18'),      # Çevresel değişkeni al
             cursorclass=pymysql.cursors.DictCursor,
             charset='utf8mb4'
         )
@@ -33,7 +34,7 @@ valid_tables = {
     'kullanici': ['kullanici_id', 'kullanici_adi', 'email', 'sifre_hash', 'kayit_tarihi', 'son_giris_tarihi'],
     'mesaj': ['mesaj_id', 'gonderen_id', 'alici_id', 'icerik', 'gonderim_tarihi', 'teslim_durumu'],
     'arama': ['arama_id', 'baslatan_id', 'katilimci_id', 'baslangic_zamani', 'bitis_zamani', 'arama_durumu'],
-    'mesaj_arama_kaydi': ['kayit_id', 'kullanici_id', 'mesaj_id', 'arama_id', 'kayit_tarihi']  # Tabloyu buraya ekleyin
+    'mesaj_arama_kaydi': ['kayit_id', 'kullanici_id', 'mesaj_id', 'arama_id', 'kayit_tarihi']
 }
 
 # Tabloya göre veriyi almak
@@ -58,7 +59,7 @@ def get_data_by_id(table_name, id):
         'kullanici': 'kullanici_id',
         'mesaj': 'mesaj_id',
         'arama': 'arama_id',
-        'mesaj_arama_kaydi': 'kayit_id'  # Buraya ekledik
+        'mesaj_arama_kaydi': 'kayit_id'
     }
 
     if table_name not in table_columns:
@@ -86,7 +87,7 @@ def update_data(table_name, id):
         'kullanici': 'kullanici_id',
         'mesaj': 'mesaj_id',
         'arama': 'arama_id',
-        'mesaj_arama_kaydi': 'kayit_id'  # Buraya ekledik
+        'mesaj_arama_kaydi': 'kayit_id'
     }
 
     if table_name not in table_columns:
@@ -120,7 +121,7 @@ def delete_data(table_name, id):
         'kullanici': 'kullanici_id',
         'mesaj': 'mesaj_id',
         'arama': 'arama_id',
-        'mesaj_arama_kaydi': 'kayit_id'  # Buraya ekledik
+        'mesaj_arama_kaydi': 'kayit_id'
     }
 
     if table_name not in table_columns:
