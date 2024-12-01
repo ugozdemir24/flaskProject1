@@ -6,6 +6,11 @@ from flask_cors import CORS
 app = Flask(__name__)
 CORS(app)
 
+# Ana Sayfa Route'u
+@app.route('/')
+def home():
+    return "Ana Sayfaya Hoşgeldiniz!"
+
 # MySQL Veritabanı Bağlantı Ayarları
 def get_db_connection():
     try:
@@ -136,3 +141,4 @@ def delete_data(table_name, id):
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=5002, debug=True)
+
