@@ -141,6 +141,6 @@ def delete_data(table_name, id):
         return jsonify({'error': str(e)}), 400
 
 if __name__ == '__main__':
-    app.run(host="0.0.0.0", port=int(os.getenv('PORT', 8080)), debug=True)
+    app.run(host="0.0.0.0", port=int(os.getenv('PORT', 5005)), debug=True)
 
 
